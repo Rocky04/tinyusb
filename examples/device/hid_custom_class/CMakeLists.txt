@@ -30,6 +30,11 @@ target_include_directories(${PROJECT} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/src/class/hid
         )
 
+# Set wchar size to short
+target_compile_options(${PROJECT} PUBLIC
+    -fshort-wchar
+    )
+
 # Configure compilation flags and libraries for the example without RTOS.
 # See the corresponding function in hw/bsp/FAMILY/family.cmake for details.
 family_configure_device_example(${PROJECT} noos)
