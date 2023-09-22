@@ -62,7 +62,7 @@ typedef struct
 
 CFG_TUD_MEM_SECTION tu_static x360d_instance_t _x360_instances[CFG_APP_X360];
 
-static void x360d_report_out_received(x360d_instance_t * instance, uint16_t xferred_bytes);
+static void x360d_report_out_received(x360d_instance_t * instance, uint8_t xferred_bytes);
 
 static inline x360d_instance_t * get_free_instance(void);
 static inline x360d_instance_t * get_instance_by_ep(uint8_t ep_addr);
@@ -250,7 +250,7 @@ bool x360d_xfer_cb(uint8_t rhport, uint8_t ep_addr, xfer_result_t result, uint32
 		// Inform application about the issue, ATTENTION: The application then needs to allow to receive a new transfer for the endpoint
 		if (x360d_report_issue_cb)
 		{
-			x360d_report_issue_cb(p_itf->itf_num, ep_addr, result, xferred_bytes);
+			x360d_report_issue_cb(p_itf->itf_num, ep_addr, result, (uint8_t) xferred_bytes);
 		}
 		// In the case the application don't care about issues allow a new transfer to be received
 		else if (ep_addr == p_itf->ep_out)
@@ -268,14 +268,14 @@ bool x360d_xfer_cb(uint8_t rhport, uint8_t ep_addr, xfer_result_t result, uint32
 		// Inform the application
 		if (x360d_report_complete_cb)
 		{
-			x360d_report_complete_cb(p_itf->itf_num, p_itf->transfer_in_buf, xferred_bytes);
+			x360d_report_complete_cb(p_itf->itf_num, p_itf->transfer_in_buf, (uint8_t) xferred_bytes);
 		}
 	}
 	// Handle a successful received transfer
 	else if (ep_addr == p_itf->ep_out)
 	{
 		// Handle a successful received transfer
-		x360d_report_out_received(p_itf, xferred_bytes);
+		x360d_report_out_received(p_itf, (uint8_t) xferred_bytes);
 
 		// Prepare the OUT endpoint to be able to receive a new transfer
 		TU_ASSERT(usbd_edpt_xfer(p_itf->rhport, p_itf->ep_out, p_itf->transfer_out_buf, X360_TRANSFER_OUT_BUFFER_SIZE));
@@ -285,7 +285,7 @@ bool x360d_xfer_cb(uint8_t rhport, uint8_t ep_addr, xfer_result_t result, uint32
 }
 
 // Handle a X360 OUT transfer
-static void x360d_report_out_received(x360d_instance_t * p_itf, uint16_t xferred_bytes)
+static void x360d_report_out_received(x360d_instance_t * p_itf, uint8_t xferred_bytes)
 {
 	// Caller should ensure that the parameters are valid
 

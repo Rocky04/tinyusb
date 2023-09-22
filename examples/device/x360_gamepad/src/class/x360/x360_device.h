@@ -118,7 +118,7 @@ bool x360d_n_report(uint8_t itf_num, x360_controls_t const * report);
 TU_ATTR_WEAK void x360d_report_issue_cb(uint8_t itf_num, uint8_t ep_addr, xfer_result_t result, uint32_t xferred_bytes);
 
 // Callback which is invoked when the last report was sent successfully to host
-TU_ATTR_WEAK void x360d_report_complete_cb(uint8_t itf_num, uint8_t const* report, uint16_t len);
+TU_ATTR_WEAK void x360d_report_complete_cb(uint8_t itf_num, uint8_t const* report, uint8_t len);
 
 // Callback which is invoked when the a new LED state was received from the host
 TU_ATTR_WEAK void x360d_received_led_cb(uint8_t itf_num, x360_led_animations_t led);
