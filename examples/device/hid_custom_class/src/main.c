@@ -345,7 +345,7 @@ TU_ATTR_USED bool chidd_get_idle_cb(uint8_t itf_num, uint8_t report_id, uint8_t 
 	}
 
 	// Provide the duration, resolution is 4 ms per unit
-	*duration = (uint8_t) (0xFF & (idle_duration / 4));
+	*duration = (uint8_t) (idle_duration / 4);
 
 	return true;
 }
